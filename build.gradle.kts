@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -43,7 +44,7 @@ tasks.getByName<BootBuildImage>("bootBuildImage") {
 	builder = "paketobuildpacks/builder:tiny"
 	environment = mapOf(
 		"BP_NATIVE_IMAGE" to "true",
-		"BP_NATIVE_IMAGE_BUILD_ARGUMENTS" to "--enable-all-security-services"
+		"BP_NATIVE_IMAGE_BUILD_ARGUMENTS" to "--enable-all-security-services --enable-http"
 	)
 	buildpacks = listOf("gcr.io/paketo-buildpacks/java-native-image:5.3.0")
 }

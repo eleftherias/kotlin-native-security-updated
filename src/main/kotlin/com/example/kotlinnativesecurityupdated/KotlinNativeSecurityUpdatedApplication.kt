@@ -25,21 +25,17 @@ fun main(args: Array<String>) {
                     }
                 }
                 bean {
-                    InMemoryUserDetailsManager(
-                        User.withUsername("user")
-                            .password("{bcrypt}\$2a\$10\$CvFWWoyao/V1zk1c14/M7OwUOymy3lT7eXTCu6w4ERT7OHrpOYtDq")
-                            .roles("USER")
-                            .build()
-                    )
-                }
-                bean {
                     val http = ref<HttpSecurity>()
                     http {
                         authorizeRequests {
                             authorize("/hello", permitAll)
                             authorize(anyRequest, authenticated)
                         }
-                        httpBasic { }
+                        oauth2ResourceServer {
+                            jwt {
+                                jwkSetUri = "http://host.docker.internal:9000/oauth2/jwks"
+                            }
+                        }
                     }
                     http.build()
                 }
